@@ -6,14 +6,14 @@ This repository contains implementations for various programming exercises from 
 
 **📌 Repository Overview**
 This repository includes:
-•	Structured solutions
-•	Mini documentation files discussing the requirements and design. 
+- Structured solutions
+- Mini documentation files discussing the requirements and design. 
 
 **🎯 Objectives**
-•	Improve my algorithmic thinking and problem-solving skills.
-•	Explore different aspects of Python.
-•	Track my progress.
-•	Maintain a well-structured repository for future reference and professional growth.
+- Improve my algorithmic thinking and problem-solving skills.
+- Explore different aspects of Python.
+- Track my progress.
+- Maintain a well-structured repository for future reference and professional growth.
 
 **📂 Repository Structure**
 📁 coding-portfolio  
@@ -23,3 +23,8 @@ This repository includes:
 
 **🤝  Feedback**
 If you have time then I would encourage you to give me constructive feedback and ideas for improvement. When giving feedback please be detailed, give examples and comment your code clearly.
+
+## LICENSE
+© [Milagros Omoruyi Ihordal] [2025]. All rights reserved.  
+This repository is provided for educational and reference purposes only.  
+No permission is granted for reuse, modification, or distribution.
