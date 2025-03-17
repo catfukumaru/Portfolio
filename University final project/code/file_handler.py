@@ -1,114 +1,148 @@
-''' deals with handling the file
-todo: make this module description more detailed'''
+''' deals with handling the file (finds a file, converts a file, saves and access the data in a file)
+
+functions
+    locate_folder: finds the folder the file is in
+    directory_path_format: validates the format of the directory path
+    filename_format: validates the format of the file string
+    determine_PDF_bytes: looks into a file to see if it is a PDF
+    write_into_file: writes data into a new file
+    get_values: separate the file data, from the values used to dencrypt the file
+'''
+
 import os
 import re
 
+#
+#  File location
+#
+
 def locate_folder(directory, filename):
     """
-        find the folder in a drive of the computer the program is running on
+    find the folder in a drive of the computer the program is running on
 
-        param: location = string
-        returns: operating_system.folder_object(location) = folder_object # object that handles operations to do with a folder in a computer system
+    param:
+        directory = string # it is the full path
+        filename = string # it also includes the extension
+    returns:
+        os.path.join(root,file) = string
     """
-# no need to grant access
 
-
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-             if file == filename:
-                return (os.path.join(root,file))
+    for path, directory, files in os.walk(directory):
+        for file in files: # looping through each folder
+             if file == filename: #if the file is found
+                return os.path.join(path,file) # returns the full path
              else:
-                print("the path was not found, try again")
+                print("Error: The path was not found, check that there are no spelling mistakes.")
     return None
 
-
-
-
-
-# the user needs to add the extra backslash
-
-
-# --- new function, checks the format of the directory path
+#
+#  Format validation
+#
 def directory_path_format(directory_string):
-    pattern = r'^[a-zA-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*$'  # pattern for the patth of the folder
-
-    # Regex Pattern explanation:
-    #     ^ [A - Z]: ensures that the path starts with a drive letter (A-Z) followed by a colon.
-    #
-    #     \\ matches a backslash.
-    #
-    #     (?:[\w\s\-\.]+\\) * matches zero or more directory names followed by a backslash. Each directory name can
-    #     contain word characters(\w), spaces(\s), hyphens(-), and periods(.).
-    #
-    #     [\w\s\-\.]+$ ensures that the path ends with a directory name (without a trailing backslash).
+    """determine whether a file format of the string representing the directory si correct.
+            param:
+                directory_string = string
+            returns:
+                boolean value
+    """
+    pattern = r'^[A-Z]:\\(((?![<>:"/\\|?*]).)+((?<![ .])\\)?)*$'  # pattern for the patth of the folder
+    # represents the drive letter (A-Z) followed by a colon:     [A - Z]: .
+    # matches the backslash after the drive letter:     \\
+    # none of this characters can be in the string <, >, :, ", /, \, |, ?, *:   (?![<>:"/\\|?*]).)+
+    # no space characters before the backslash but the backslash can appear more than once:     (?<![ .])\\)?
+    # the entire group can appear more than once, i.e: multiple directory levels are allowed:   )*
+    # the string needs to match the pattern throughout its length:      $
 
     if re.match(pattern, directory_string):  # check is the format of the location is correct
         return True
     else:
-        # Identify the part of the path that is wrong
-        if not re.match(r'^[a-zA-Z]:\\ ', directory_string):
-            print("Error: The path must start with a drive letter followed by a colon and backslash (e.g., C:\\).")
-        elif not re.search(r'\\+', directory_string): # ? if this is relevant cause the top one already those this check
-            print("Error: The path must contain at least one backslash (\\) to separate directories.")
+        # Identifies the part of the path that is wrong
+        if not re.match(r'^[A-Z]: ', directory_string):
+            print("Error: The path must start with a drive letter followed by a colon.")
+        elif not re.search(r'\\+', directory_string):
+            print("Error: The path must contain at least one backslash.")
         else:
             # Check for invalid characters in the path
             invalid_chars = re.findall(r'[<>:"/\\|?*]', directory_string)
             if invalid_chars:
-                print(f"Error: The path contains invalid characters: {', '.join(set(invalid_chars))}.")
-                print("Please remove these characters from the path.")
+                print(f"Error: The path contains at least one of this invalid characters: {', '.join(set(invalid_chars))}.")
 
     return False
 
-def filename_format(file_string):# i was here make test cases fro this
-    
+def filename_format(file_string):
+    """determine whether a file format of the string representing the filename and its extension are correct.
+        param:
+            filename_with_extension = string
+        returns:
+            boolean value
+    """
     pattern = r'^[^\t\r\n\\\/<>:"|?*]*[^\t\r\n\\\/<>:"|?*.\s]\.(pdf|PDF)$'
-    if re.match(pattern, file_string):  # check is the format of the location is correct
+    # from the beginning of the string. this characters must not be in the string:     [^\t\r\n\\\/<>:"|?*].
+    # the file must not end with a space character or a period before the file extension:    [^\t\r\n\\\/<>:"|?*.\s]
+    # the file is a period and pdf or PDF:    \.(pdf|PDF)$
+    if re.match(pattern, file_string):  # check is the format  is correct
         return True
     else:
-        print("this program only accepts PDF files")
+        print("Error: This program only accepts PDF files")
         return False
 
-
-
 def determine_PDF_bytes(filename_with_extension):
-    """determine whether a file is a pdf by the first few bytes in the file"""
-
+    """determine whether a file is a pdf by the first few bytes in the file
+        param:
+            filename_with_extension = string
+        returns:
+            boolean value
+    """
     with open(filename_with_extension, "rb") as file:
         first_four_bytes= file.read(4)
 
     if first_four_bytes == b'%PDF':
         return True
     else:
-        print("The file you have choosen is of the wrong format. Please only use PDF files")
+        print("The file selected has the wrong format. Please only use PDF files")
         return False
 
-def pdf_to_bytes(filename_with_extension):
-    """determine whether a file is a pdf by the first few bytes in the file"""
-    full_file = b''
-    with open(filename_with_extension, "rb") as file:
-        while True:
-            part_of_file = file.read(1024)
-            if not part_of_file:
-                break
-            full_file+=part_of_file
 
-    return full_file
-
-
-
-
-
-
-
-    # print ("the path was written incorrectly, try again")
-# my_commandline.ask_folder_path()  # asks the user for the folder path again from another file that handles the obtaining values from the command line
-# ----
 #
+#  Manipulates a file
 #
-# ---onece i get the main functionaly working i can add this to it
-# IF
-# operating_system.search(location) == type(path_object):  # if the search produces an path_object
-# return operating_system.folder_object(location)
-# ELSE:
-# # print ("the path was not found, try again")
-# my_commandline.ask_folder_path()  # asks the user for the folder path again
+
+
+def write_into_file(binary_encrypted_data, key, initialization_vector):
+    """writes  binary_encrypted_data, key and  initialization_vector to a file
+        param:
+            binary_encrypted_data = binary string
+            key = binary string
+            initialization_vector = binary string
+
+        returns:
+            bin_file: BinaryIO = a binary file containing all the parameters in it
+    """
+
+    with open("encrypted_file.bin", 'wb') as bin_file:
+        bin_file.write(binary_encrypted_data)
+        bin_file.write(key)
+        bin_file.write(initialization_vector)
+    return bin_file
+
+def get_values():
+    """get the binary_encrypted_data, key and  initialization_vector from a file
+    param:
+        file = _io.TextIOWrapper # type given to a file
+
+    returns:
+        tuple: It contains the binary_encrypted_data, key and initialization_vector
+    """
+
+    KEY_SIZE = 32  # Amount of bytes in the Blowfish key
+    IVECTOR_SIZE = 8  # SAmount of bytes in the initialization vector
+
+    with open("encrypted_file.bin", 'rb') as bin_file:
+        file_content = bin_file.read()
+
+        # Extract the binary encrypted data, key, and initialization vector
+        binary_encrypted_data = file_content[:-KEY_SIZE - IVECTOR_SIZE]
+        key = file_content[-(KEY_SIZE + IVECTOR_SIZE):-IVECTOR_SIZE]
+        initialization_vector = file_content[-IVECTOR_SIZE:]
+
+    return binary_encrypted_data, key, initialization_vector
