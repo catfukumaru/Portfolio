@@ -135,11 +135,10 @@ def get_values():
     """
 
     KEY_SIZE = 32  # Amount of bytes in the Blowfish key
-    IVECTOR_SIZE = 8  # SAmount of bytes in the initialization vector
+    IVECTOR_SIZE = 8  # Amount of bytes in the initialization vector
 
     with open("encrypted_file.bin", 'rb') as bin_file:
         file_content = bin_file.read()
-
         # Extract the binary encrypted data, key, and initialization vector
         binary_encrypted_data = file_content[:-KEY_SIZE - IVECTOR_SIZE]
         key = file_content[-(KEY_SIZE + IVECTOR_SIZE):-IVECTOR_SIZE]
