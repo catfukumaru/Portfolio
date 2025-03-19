@@ -27,13 +27,8 @@ def locate_folder(directory, filename):
         os.path.join(root,file) = string
     """
 
-    for path, directory, files in os.walk(directory):
-        for file in files: # looping through each folder
-             if file == filename: #if the file is found
-                return os.path.join(path,file) # returns the full path
-             else:
-                print("Error: The path was not found, check that there are no spelling mistakes.")
-    return None
+    for path, dir, files in os.walk(directory):
+        return os.path.join(path, filename)
 
 #
 #  Format validation
@@ -55,17 +50,17 @@ def directory_path_format(directory_string):
 
     if re.match(pattern, directory_string):  # check is the format of the location is correct
         return True
-    else:
-        # Identifies the part of the path that is wrong
-        if not re.match(r'^[A-Z]: ', directory_string):
-            print("Error: The path must start with a drive letter followed by a colon.")
-        elif not re.search(r'\\+', directory_string):
-            print("Error: The path must contain at least one backslash.")
-        else:
-            # Check for invalid characters in the path
-            invalid_chars = re.findall(r'[<>:"/\\|?*]', directory_string)
-            if invalid_chars:
-                print(f"Error: The path contains at least one of this invalid characters: {', '.join(set(invalid_chars))}.")
+    # else:
+    #     # Identifies the part of the path that is wrong
+    #     if not re.match(r'^[A-Z]: ', directory_string):
+    #         print("Error: The path must start with a drive letter followed by a colon.")
+    #     elif not re.search(r'\\+', directory_string):
+    #         print("Error: The path must contain at least one backslash.")
+    #     else:
+    #         # Check for invalid characters in the path
+    #         invalid_chars = re.findall(r'[<>:"/\\|?*]', directory_string)
+    #         if invalid_chars:
+    #             print(f"Error: The path contains at least one of this invalid characters: {', '.join(set(invalid_chars))}.")
 
     return False
 
@@ -108,7 +103,7 @@ def determine_PDF_bytes(filename_with_extension):
 #
 
 
-def write_into_file(binary_encrypted_data, key, initialization_vector):
+def write_into_file(new_file_filepath, binary_encrypted_data, key, initialization_vector):
     """writes  binary_encrypted_data, key and  initialization_vector to a file
         param:
             binary_encrypted_data = binary string
@@ -119,13 +114,13 @@ def write_into_file(binary_encrypted_data, key, initialization_vector):
             bin_file: BinaryIO = a binary file containing all the parameters in it
     """
 
-    with open("encrypted_file.bin", 'wb') as bin_file:
+    with open(new_file_filepath, 'wb') as bin_file:
         bin_file.write(binary_encrypted_data)
         bin_file.write(key)
         bin_file.write(initialization_vector)
     return bin_file
 
-def get_values():
+def get_values(full_path):
     """get the binary_encrypted_data, key and  initialization_vector from a file
     param:
         file = _io.TextIOWrapper # type given to a file
@@ -137,7 +132,7 @@ def get_values():
     KEY_SIZE = 32  # Amount of bytes in the Blowfish key
     IVECTOR_SIZE = 8  # Amount of bytes in the initialization vector
 
-    with open("encrypted_file.bin", 'rb') as bin_file:
+    with open(full_path, 'rb') as bin_file:
         file_content = bin_file.read()
         # Extract the binary encrypted data, key, and initialization vector
         binary_encrypted_data = file_content[:-KEY_SIZE - IVECTOR_SIZE]
