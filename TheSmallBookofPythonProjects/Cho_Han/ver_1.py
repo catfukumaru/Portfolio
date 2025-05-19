@@ -54,9 +54,8 @@ dice total to an even (cho) or odd (han) number.\n"""
     stop_game = ''
     initial_amount = 5000
 
-    while True:
-        if initial_amount <= 0:
-            break
+    while  initial_amount > 0:
+
         bet = place_bet(initial_amount)
         if type(bet) == str:
            if bet.upper() == "QUIT":
@@ -66,7 +65,7 @@ dice total to an even (cho) or odd (han) number.\n"""
         die = roll_die()
         actual_parity = even_odd(die)
         player_guess = ask_parity()
-        #guess = 'cho' #ask_parity() # i think that this is where the issue comes from but debug to validate the guess
+
 
         dice1, dice2 = die
 
@@ -100,6 +99,7 @@ dice total to an even (cho) or odd (han) number.\n"""
             print(win_lose_text)
             initial_amount = calc_losing(initial_amount, bet)
 
+    print("You have no money left. The game has ended.")
 
 if __name__ == "__main__":
     game()
