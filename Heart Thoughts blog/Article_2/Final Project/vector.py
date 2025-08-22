@@ -9,7 +9,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
 
 
-# from https://www.youtube.com/watch?v=2TJxpyO3ei4&t=202s
 
 # vector search is a databse that is stored in the computer using chroma db
 # it is used to look at info quickly that can be given to the model

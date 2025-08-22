@@ -3,7 +3,7 @@ from langchain_chroma import Chroma
 from langchain_core.documents import Document
 import os
 import pandas as pd
-# from https://www.youtube.com/watch?v=E4l91XKQSgw
+
 
 # vector search is a databse that is stored in the computer using chroma db
 # it is used to look at info quickly that can be given to the model
