@@ -1,0 +1,36 @@
+* {
+
+font-family: Gill Sans;
+
+
+}
+
+h1 {
+
+color: rgb(0, 0, 0);
+background-color: #FFFF00;
+font-size: 70pt;
+text-align: center;
+
+
+}
+
+h2 {
+
+color: rgb(0, 0, 0);
+
+font-size: 38pt;
+
+}
+
+p {
+
+font-size: 18pt;
+
+color: rgb(0, 0, 0);
+background: linear-gradient(to bottom, #BEBEB9 0%, #ffffff 100%);
+border-radius: 12pt; /* rounded edges */
+padding: 10pt 15pt; /* the gap between the text and the and the rectangle around it*/
+margin-bottom: 38pt; /* 20pt margin on top and bottom */
+
+}

@@ -1,0 +1,75 @@
+  body {
+    font-family: Gill Sans;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: FFFF00;
+  }
+
+
+  /* Container with rounded border and white background */
+  .page-container {
+    background-color: white;
+    border: 8px solid  #FFFF00; /* yellow border */
+    border-radius: 40px;
+    width: 90vw;
+    max-width: 900px;
+    min-height: 80vh;
+    box-sizing: border-box;
+    padding: 30px;
+    box-shadow: 0 0 20px  #FFFF00;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+    font-size: 3em;
+  }
+  h2 {
+    margin: 0;
+    font-size: 1.8em;
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex; /* inline for centering with flex for triangle */
+    align-items: center; /* vertically center triangle and text */
+  }
+   /* Triangle using CSS border as inline block */
+  h2::before {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
+    border-left: 6px solid black;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+  /* Rotate triangle when expanded */
+  .section.expanded h2::before {
+    transform: rotate(90deg);
+  }
+.content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+    text-align: left; /* paragraphs aligned left */
+    margin-top: 8px;
+  }
+  .content p {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    line-height: 1.5;
+    background-color: #EBEBEB;
+    border-radius: 12pt;
+  }
+  .section.expanded .content {
+    max-height: 1000px; /* enough for paragraph */
+  }
