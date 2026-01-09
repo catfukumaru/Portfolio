@@ -1,4 +1,4 @@
-# the other one has a limit to the number of request i can make. at some point if a recruiter runs it it will not work + it is not getting the price or the title of the page.
+
 
 from bs4 import BeautifulSoup
 import requests
@@ -18,7 +18,7 @@ big_integer_price = soup.find(class_="a-price-whole")
 decimal_price = soup.find(class_="a-price-fraction")
 if name:
     name = name.get_text().strip()
-    #rint(name)
+    #print(name)
 else:
     print("Title not found")
 
@@ -35,7 +35,7 @@ print(today)
 # put the data in a csv and manage it with pandas
 import pandas as pd
 import os
- ##### TODO: make up the name from the first 15char in the title - DON'T do it i can group by the name of the project
+ 
 filename = "products.csv"
 
 # Check if file exists
@@ -68,8 +68,3 @@ else:
         print("New row added to existing CSV")
 
 
-# make it run daily
-# refactor the code
-# wait for 10 seconds for a reponse. if not just continue with the rest of the program
-
-# add tests
