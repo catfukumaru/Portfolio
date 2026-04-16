@@ -1,0 +1,26 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Home page
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+                <h1 class="pt-5 pb-2">Database viwier</h1>
+                <ul>
+                    {% for table in tables %}
+                    <li> <a href="{{ url_for( 'tables', table_displayed=table ) }}">{{table}}</a></li> 
+                    <!-- links to a new page for each table -->
+                    {% endfor %}   
+                </ul>
+    
+            </div>
+        </div>
+    </div>
+{% endblock %}
